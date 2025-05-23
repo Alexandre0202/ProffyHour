@@ -3,7 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Hora do Amigo</title>
+  <title>NyaleHour</title>
+
+  <!-- Ícone da aba -->
+  <link rel="icon" type="image/png" href="https://yt3.ggpht.com/Wkx6ZM2gLxvfYE9qWM9mBtbmiwKYxDY3KFNAZmsXOo3pGNKTbc2YzklMjcCCOxOWJ0BHKwXe62DKSw=s326-c-fcrop64=1,06b30000f94cffff-rw-nd-v1"/>
+
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <style>
     body {
@@ -25,6 +29,8 @@
       border-radius: 15px;
       padding: 30px;
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      max-width: 850px;
+      width: 90%;
     }
 
     .element {
@@ -36,7 +42,7 @@
     }
 
     .element:hover {
-      transform: scale(1.05);
+      transform: scale(1.02);
       background: rgba(0, 0, 0, 0.7);
     }
 
@@ -44,13 +50,15 @@
       font-family: 'Roboto', sans-serif;
       font-size: 2.5rem;
       font-weight: bold;
+      margin-bottom: 10px;
     }
 
     .clock-container {
       background: rgba(255, 255, 255, 0.05);
-      border-radius: 50%;
-      padding: 20px;
+      border-radius: 15px;
+      padding: 15px;
       display: inline-block;
+      margin-right: 10px; /* Espaço reduzido entre relógio e clima */
     }
 
     .clock {
@@ -113,19 +121,6 @@
       font-weight: bold;
     }
 
-    .container:not(:hover) {
-      animation: zoomInOut 4s infinite alternate;
-    }
-
-    @keyframes zoomInOut {
-      0% {
-        transform: scale(0.9);
-      }
-      70% {
-        transform: scale(1.0);
-      }
-    }
-
     .clock-number {
       fill: white;
       font-size: 6px;
@@ -134,25 +129,48 @@
       font-family: Arial, sans-serif;
     }
 
-    .meteor {
-      position: absolute;
-      width: 5px;
-      height: 5px;
-      background-color: white;
-      animation: meteorFall 5s linear infinite;
+    /* Estilos para o widget de clima */
+    .weather-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px; /* Espaço entre relógio e widget */
     }
-
-    @keyframes meteorFall {
-      0% {
-        top: -10%;
-        left: 0;
-        opacity: 0;
-      }
-      100% {
-        top: 110%;
-        left: 100%;
-        opacity: 1;
-      }
+    
+    .weather-widget {
+      width: 400px;
+      height: 230px;
+      overflow: hidden;
+      border-radius: 30px;
+    }
+    
+    .elfsight-app-1320ebf0-180b-4e75-a291-1934a4585675 {
+      height: 210px !important;
+      margin-top: -10px;
+      width: 100% !important;
+    }
+    
+    /* Garante que o widget ocupe todo o espaço */
+    .elfsight-app-1320ebf0-180b-4e75-a291-1934a4585675 iframe,
+    .elfsight-app-1320ebf0-180b-4e75-a291-1934a4585675 .elfsight-widget-content {
+      height: 100% !important;
+      width: 100% !important;
+      border: none !important;
+    }
+    
+    /* Remove cabeçalho e rodapé do widget */
+    .elfsight-app-1320ebf0-180b-4e75-a291-1934a4585675 .elfsight-widget-header,
+    .elfsight-app-1320ebf0-180b-4e75-a291-1934a4585675 .elfsight-widget-footer {
+      display: none !important;
+      height: 0 !important;
+    }
+    
+    /* Centraliza o conteúdo do widget */
+    .weather-widget-wrapper {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
     }
   </style>
 </head>
@@ -164,83 +182,130 @@
         <span id="jasper">Horário padrão de Brasília</span>
       </h1>
     </div>
-    <div class="clock-container element">
-      <div id="clock-container" class="clock">
-        <svg id="clock" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-          <circle cx="50" cy="50" r="48"/>
-          <line x1="50" y1="50" x2="50" y2="20" class="hour"/>
-          <line x1="50" y1="50" x2="50" y2="10" class="minute"/>
-          <line x1="50" y1="50" x2="50" y2="5" class="second"/>
-          <!-- Números do relógio -->
-          <g id="numbers"></g>
-        </svg>
-        <div id="utc">UTC -3</div>
+    
+    <div class="weather-container element">
+      <div class="clock-container">
+        <div id="clock-container" class="clock">
+          <svg id="clock" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="48"/>
+            <line x1="50" y1="50" x2="50" y2="20" class="hour"/>
+            <line x1="50" y1="50" x2="50" y2="10" class="minute"/>
+            <line x1="50" y1="50" x2="50" y2="5" class="second"/>
+            <g id="numbers"></g>
+          </svg>
+          <div id="utc">UTC -3</div>
+        </div>
+      </div>
+      
+      <div class="weather-widget">
+        <!-- Widget de Clima -->
+        <div class="elfsight-app-1320ebf0-180b-4e75-a291-1934a4585675" data-elfsight-app-lazy></div>
       </div>
     </div>
+    
     <div class="element">
       <div id="time"></div>
       <div id="date"></div>
     </div>
-  </div>
 
-  <script>
-    const timeZone = "America/Sao_Paulo";
+    <!-- Áudio para manter a aba ativa -->
+    <audio id="keep-awake-audio" autoplay loop muted playsinline>
+      <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+      Seu navegador não suporta áudio HTML5.
+    </audio>
 
-    function updateTime() {
-      const now = new Date(new Date().toLocaleString("en-US", { timeZone }));
-      let hours = now.getHours();
-      const minutes = now.getMinutes();
-      const seconds = now.getSeconds();
-      const ampm = hours >= 12 ? 'PM' : 'AM';
+    <script>
+      // Reproduzir áudio após interação para evitar bloqueio automático
+      const audio = document.getElementById('keep-awake-audio');
+      document.addEventListener('click', () => {
+        audio.play().catch(() => {});
+      }, { once: true });
 
-      let displayHours = hours % 12;
-      displayHours = displayHours ? displayHours : 12;
+      const timeZone = "America/Sao_Paulo";
 
-      document.getElementById('time').innerText =
-        `${displayHours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} ${ampm}`;
-      document.getElementById('date').innerText = now.toLocaleDateString('pt-BR', {
-        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-      });
+      function updateTime() {
+        const now = new Date(new Date().toLocaleString("en-US", { timeZone }));
+        let hours = now.getHours();
+        const minutes = now.getMinutes();
+        const seconds = now.getSeconds();
+        const ampm = hours >= 12 ? 'PM' : 'AM';
 
-      const hourHand = document.querySelector('.hour');
-      const minuteHand = document.querySelector('.minute');
-      const secondHand = document.querySelector('.second');
+        let displayHours = hours % 12;
+        displayHours = displayHours ? displayHours : 12;
 
-      const hourAngle = ((hours % 12) + minutes / 60) * 30;
-      const minuteAngle = minutes * 6;
-      const secondAngle = seconds * 6;
+        document.getElementById('time').innerText =
+          `${displayHours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')} ${ampm}`;
+        document.getElementById('date').innerText = now.toLocaleDateString('pt-BR', {
+          weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+        });
 
-      setHandPosition(hourHand, hourAngle, 20);
-      setHandPosition(minuteHand, minuteAngle, 30);
-      setHandPosition(secondHand, secondAngle, 40);
-    }
+        const hourHand = document.querySelector('.hour');
+        const minuteHand = document.querySelector('.minute');
+        const secondHand = document.querySelector('.second');
 
-    function setHandPosition(element, angle, length) {
-      const rad = (angle - 90) * Math.PI / 180;
-      const x = 50 + length * Math.cos(rad);
-      const y = 50 + length * Math.sin(rad);
-      element.setAttribute('x2', x);
-      element.setAttribute('y2', y);
-    }
+        const hourAngle = ((hours % 12) + minutes / 60) * 30;
+        const minuteAngle = minutes * 6;
+        const secondAngle = seconds * 6;
 
-    function drawNumbers() {
-      const svg = document.getElementById('numbers');
-      for (let i = 1; i <= 12; i++) {
-        const angle = (i - 3) * 30 * Math.PI / 180;
-        const x = 50 + 40 * Math.cos(angle);
-        const y = 50 + 40 * Math.sin(angle);
-        const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
-        text.setAttribute("x", x);
-        text.setAttribute("y", y);
-        text.setAttribute("class", "clock-number");
-        text.textContent = i;
-        svg.appendChild(text);
+        setHandPosition(hourHand, hourAngle, 20);
+        setHandPosition(minuteHand, minuteAngle, 30);
+        setHandPosition(secondHand, secondAngle, 40);
       }
-    }
 
-    setInterval(updateTime, 1000);
-    updateTime();
-    drawNumbers();
-  </script>
+      function setHandPosition(element, angle, length) {
+        const rad = (angle - 90) * Math.PI / 180;
+        const x = 50 + length * Math.cos(rad);
+        const y = 50 + length * Math.sin(rad);
+        element.setAttribute('x2', x);
+        element.setAttribute('y2', y);
+      }
+
+      function drawNumbers() {
+        const svg = document.getElementById('numbers');
+        for (let i = 1; i <= 12; i++) {
+          const angle = (i - 3) * 30 * Math.PI / 180;
+          const x = 50 + 40 * Math.cos(angle);
+          const y = 50 + 40 * Math.sin(angle);
+          const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+          text.setAttribute("x", x);
+          text.setAttribute("y", y);
+          text.setAttribute("class", "clock-number");
+          text.textContent = i;
+          svg.appendChild(text);
+        }
+      }
+
+      setInterval(updateTime, 1000);
+      updateTime();
+      drawNumbers();
+      
+      // Script para remover o logo do widget de clima após carregamento
+      function removeWidgetLogo() {
+        const observer = new MutationObserver(() => {
+          const widgetHeader = document.querySelector('.elfsight-app-1320ebf0-180b-4e75-a291-1934a4585675 .elfsight-widget-header');
+          const widgetFooter = document.querySelector('.elfsight-app-1320ebf0-180b-4e75-a291-1934a4585675 .elfsight-widget-footer');
+          
+          if (widgetHeader) widgetHeader.style.display = 'none';
+          if (widgetFooter) widgetFooter.style.display = 'none';
+          
+          if (widgetHeader || widgetFooter) {
+            observer.disconnect();
+          }
+        });
+        
+        observer.observe(document.body, {
+          childList: true,
+          subtree: true
+        });
+      }
+      
+      // Carrega o script do widget de clima
+      const weatherScript = document.createElement('script');
+      weatherScript.src = 'https://static.elfsight.com/platform/platform.js';
+      weatherScript.async = true;
+      weatherScript.onload = removeWidgetLogo;
+      document.head.appendChild(weatherScript);
+    </script>
+  </div>
 </body>
 </html>
