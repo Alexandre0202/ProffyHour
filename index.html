@@ -11,54 +11,84 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <style>
     body {
-      font-family: 'Arial', sans-serif;
-      background-image: url('https://derpicdn.net/img/view/2024/1/31/3291249.png');
+      font-family: Arial, sans-serif;
+      background-image: url('https://pbs.twimg.com/media/GrqzxiHWwAAFnWH?format=jpg&name=large');
       background-size: cover;
       background-position: center;
-      backdrop-filter: blur(10px);
+      background-attachment: fixed;
       color: #fff;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
       margin: 0;
+      overflow: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(4px);
+      z-index: -1;
     }
 
     .container {
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(0, 0, 0, 0.7);
       border-radius: 15px;
       padding: 30px;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-      max-width: 850px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      max-width: 900px;
       width: 90%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .container::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, #00ffff, #0077ff);
     }
 
     .element {
-      transition: transform 0.3s, background 0.3s;
-      background: rgba(0, 0, 0, 0.4);
+      transition: all 0.3s ease;
+      background: rgba(0, 0, 0, 0.5);
       padding: 20px;
       margin-bottom: 20px;
       border-radius: 15px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
     .element:hover {
-      transform: scale(1.02);
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(0, 0, 0, 0.6);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
     }
 
     h1 {
-      font-family: 'Roboto', sans-serif;
+      font-family: 'Arial Black', sans-serif;
       font-size: 2.5rem;
       font-weight: bold;
-      margin-bottom: 10px;
+      margin-bottom: 5px;
+      letter-spacing: 1px;
     }
 
     .clock-container {
-      background: rgba(255, 255, 255, 0.05);
+      background: rgba(0, 0, 0, 0.6);
       border-radius: 15px;
       padding: 15px;
       display: inline-block;
-      margin-right: 10px; /* Espaço reduzido entre relógio e clima */
+      margin-right: 15px;
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.3);
     }
 
     .clock {
@@ -66,59 +96,64 @@
       height: 200px;
       margin: 0 auto;
       position: relative;
-      opacity: 0.95;
     }
 
     .clock circle {
       fill: none;
-      stroke: #fff;
+      stroke: rgba(255, 255, 255, 0.8);
       stroke-width: 2;
     }
 
     .clock line {
-      stroke: #fff;
-    }
-
-    .clock .hour,
-    .clock .minute,
-    .clock .second {
-      stroke-width: 2;
-      stroke-linecap: round;
+      stroke: rgba(255, 255, 255, 0.3);
     }
 
     .clock .hour {
-      stroke: #fff;
+      stroke: #483D8B;
+      stroke-width: 3;
+      stroke-linecap: round;
+      transition: transform 0.5s cubic-bezier(0.4, 2.5, 0.3, 1);
     }
 
     .clock .minute {
-      stroke: #007bff;
+      stroke: #836FFF;
+      stroke-width: 2.5;
+      stroke-linecap: round;
+      transition: transform 0.5s cubic-bezier(0.4, 2.5, 0.3, 1);
     }
 
     .clock .second {
-      stroke: #dc3545;
+      stroke: #FF0000;
+      stroke-width: 2;
+      stroke-linecap: round;
+      transition: transform 0.5s cubic-bezier(0.4, 2.8, 0.3, 1);
     }
 
     #time {
-      font-size: 2.5rem;
+      font-size: 2.8rem;
       font-weight: bold;
-      font-family: 'Roboto', sans-serif;
+      font-family: 'Arial Black', sans-serif;
+      letter-spacing: 2px;
+      margin-bottom: 5px;
     }
 
     #date {
       font-size: 1.5rem;
-      font-weight: 300;
-      font-family: 'Roboto', sans-serif;
+      font-weight: normal;
+      opacity: 0.9;
     }
 
     #utc {
-      font-size: 0.8rem;
-      font-weight: 300;
-      margin-top: 5px;
+      font-size: 0.9rem;
+      font-weight: bold;
+      margin-top: 3px;
+      color: #fff;
+      position: relative;
+      top: -5px;
     }
 
     #jasper {
-      font-family: 'Comic Sans MS', sans-serif;
-      font-weight: bold;
+      font-family: 'Arial Black', sans-serif;
     }
 
     .clock-number {
@@ -127,26 +162,26 @@
       text-anchor: middle;
       dominant-baseline: middle;
       font-family: Arial, sans-serif;
+      font-weight: bold;
     }
 
-    /* Estilos para o widget de clima */
     .weather-container {
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 10px; /* Espaço entre relógio e widget */
+      gap: 13px; /* Espaço entre relógio e widget */
     }
     
     .weather-widget {
-      width: 400px;
-      height: 230px;
+      width: 350px;
+      height: 240px;
       overflow: hidden;
-      border-radius: 30px;
+      border-radius: 35px;
     }
     
     .elfsight-app-1320ebf0-180b-4e75-a291-1934a4585675 {
       height: 210px !important;
-      margin-top: -10px;
+      margin-top: -12px;
       width: 100% !important;
     }
     
@@ -172,13 +207,31 @@
       align-items: center;
       height: 100%;
     }
+      
+      .clock-container {
+        margin-right: 0;
+        margin-bottom: 15px;
+      }
+      
+      h1 {
+        font-size: 2rem;
+      }
+      
+      #time {
+        font-size: 2rem;
+      }
+      
+      #date {
+        font-size: 1.2rem;
+      }
+    }
   </style>
 </head>
 <body>
   <div class="container text-center">
     <div class="element">
       <h1>
-        <img src="https://derpicdn.net/img/view/2023/5/11/3123601.png" alt="Eu" style="width: 80px; height: auto; transform: scaleX(-1);">
+        <img src="https://d.furaffinity.net/art/nyale0102/1748042253/1748042253.nyale0102_png_eu_boca_abbertaa.png" alt="Nyale" style="width: 100px; height: auto;">
         <span id="jasper">Horário padrão de Brasília</span>
       </h1>
     </div>
@@ -208,18 +261,102 @@
       <div id="date"></div>
     </div>
 
-    <!-- Áudio para manter a aba ativa -->
-    <audio id="keep-awake-audio" autoplay loop muted playsinline>
-      <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-      Seu navegador não suporta áudio HTML5.
-    </audio>
+    <!-- Áudio para manter a aba ativa (versão otimizada) -->
+<audio id="keep-awake-audio" loop></audio>
+
+<!-- Canvas hidden para animação mínima -->
+<canvas id="keep-awake-canvas" style="display:none;"></canvas>
+
+<script>
+  // Solução robusta para evitar suspensão da aba
+  (function() {
+    // 1. Configuração do áudio silencioso
+    const audio = document.getElementById('keep-awake-audio');
+    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+    let source;
+    
+    // Criar um áudio silencioso programaticamente
+    function createSilentAudio() {
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      oscillator.type = 'sine';
+      oscillator.frequency.value = 0.1; // Frequência quase inaudível
+      gainNode.gain.value = 0; // Volume zero
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      oscillator.start();
+      return oscillator;
+    }
+    
+    // 2. Web Worker para manter CPU ativa
+    const keepAliveWorker = `
+      setInterval(() => {
+        // Fazer um cálculo simples periodicamente
+        for(let i = 0; i < 1000000; i++) {
+          Math.random();
+        }
+        postMessage('keepAlive');
+      }, 20000);
+    `;
+    
+    const blob = new Blob([keepAliveWorker], {type: 'application/javascript'});
+    const worker = new Worker(URL.createObjectURL(blob));
+    
+    // 3. Animação mínima no canvas
+    const canvas = document.getElementById('keep-awake-canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = 1;
+    canvas.height = 1;
+    let x = 0;
+    
+    function animateCanvas() {
+      x = (x + 0.01) % 1;
+      ctx.fillStyle = `rgba(0,0,0,${x})`;
+      ctx.fillRect(0, 0, 1, 1);
+      requestAnimationFrame(animateCanvas);
+    }
+    
+    // Iniciar todas as técnicas
+    function startKeepAlive() {
+      try {
+        // Técnica do áudio
+        source = createSilentAudio();
+        
+        // Técnica do canvas
+        animateCanvas();
+        
+        // Técnica do worker já está rodando
+      } catch(e) {
+        console.log('Keep-alive error:', e);
+      }
+    }
+    
+    // Iniciar quando o usuário interagir (requerido por alguns navegadores)
+    function handleUserInteraction() {
+      startKeepAlive();
+      document.removeEventListener('click', handleUserInteraction);
+      document.removeEventListener('touchstart', handleUserInteraction);
+      document.removeEventListener('keydown', handleUserInteraction);
+    }
+    
+    document.addEventListener('click', handleUserInteraction);
+    document.addEventListener('touchstart', handleUserInteraction);
+    document.addEventListener('keydown', handleUserInteraction);
+    
+    // Se já houve interação, iniciar imediatamente
+    if (document.hasFocus()) {
+      startKeepAlive();
+    }
+    
+    // Limpar quando a página for fechada
+    window.addEventListener('beforeunload', () => {
+      if (source) source.stop();
+      worker.terminate();
+    });
+  })();
+</script>
 
     <script>
-      // Reproduzir áudio após interação para evitar bloqueio automático
-      const audio = document.getElementById('keep-awake-audio');
-      document.addEventListener('click', () => {
-        audio.play().catch(() => {});
-      }, { once: true });
 
       const timeZone = "America/Sao_Paulo";
 
